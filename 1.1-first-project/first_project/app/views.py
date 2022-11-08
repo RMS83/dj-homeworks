@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, reverse
+from django.conf import settings
 import time
 import os
 
@@ -28,7 +29,6 @@ def time_view(request):
 
 
 def workdir_view(request):
-    path = '.'
-    rez = ' | '.join(os.listdir(path))
+    rez = ' | '.join(os.listdir(settings.BASE_DIR))
 
     return HttpResponse(rez)
