@@ -9,6 +9,7 @@
   <div class="header">
     <h5>
       <a href="{% url 'catalog' %}">Вернуться в каталог</a>
+      {% for phone in phones %}
     </h5>
     <h1>{{ phone.name }}</h1>
   </div>
@@ -19,4 +20,5 @@
     <div>Дата выпуска: {{ phone.release_date }}</div>
     <div>LTE: {{ phone.lte_exists|yesno:'есть,нет' }}</div>
   </div>
+    {% endfor %}
 {% endblock %}

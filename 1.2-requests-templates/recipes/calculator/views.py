@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator
+from django.http import Http404, HttpResponseNotFound, HttpResponse
 
 DATA = {
     'omlet': {
@@ -16,15 +18,39 @@ DATA = {
         'сыр, ломтик': 1,
         'помидор, ломтик': 1,
     },
-    # можете добавить свои рецепты ;)
+    'pancake': {
+        'яйцо, шт.': 1,
+        'молоко, мл.': 500,
+        'мука, ст.': 1.5,
+        'масло растительное, ст.л.': 2,
+        'сахар, ст.л.': 2,
+        'соль, ч.л.': 0.5,
+        'разрыхлитель, ч.л.': 0.5,
+        'кипяток, ст.': 0.5,
+    },
 }
 
-# Напишите ваш обработчик. Используйте DATA как источник данных
-# Результат - render(request, 'calculator/index.html', context)
-# В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
+def recipe(request, rec):
+    quantity = request.GET.get('servings')
+
+    context = {'recipe': DATA,
+               'title': 'Рецепты',
+               'rec': rec,
+               }
+
+    if rec:
+        try:
+            context['recipe'] = DATA[rec]
+            context['title'] = f'Рецепт блюда {rec}'
+        except Exception:
+            context['recipe'] = {}
+            # raise Http404
+
+        if quantity:
+            context['recipe'] = {k: v * int(quantity) for k, v in DATA[rec].items()}
+            context['title'] = f'Рецепт блюда {rec} - {quantity}шт.'
+
+    return render(request, 'calculator/index.html', context=context)
+
+# def PageNotFound(request, exception):
+#     return HttpResponseNotFound('Такого рецепта нет')
