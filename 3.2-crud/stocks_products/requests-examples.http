@@ -1,89 +1,94 @@
 # примеры API-запросов
 
 @baseUrl = http://localhost:8000/api/v1
-
-# создание продукта
-POST {{baseUrl}}/products/
+###
+# создание продукта +
+POST  http://127.0.0.1:8000/api/v1/products/
 Content-Type: application/json
 
 {
-  "title": "Помидор",
-  "description": "Лучшие помидоры на рынке"
+  "title": "Капуста",
+  "description": "качан"
 }
 
 ###
 
-# получение продуктов
-GET {{baseUrl}}/products/
+# получение продуктов +
+GET http://127.0.0.1:8000/api/v1/products/
 Content-Type: application/json
 
 ###
 
-# обновление продукта
-PATCH {{baseUrl}}/products/1/
+# обновление продукта +
+PATCH http://127.0.0.1:8000/api/v1/products/1/
 Content-Type: application/json
 
 {
-  "description": "Самые сочные и ароматные помидорки"
+  "description": "Сыр кусками в кг."
 }
 
 ###
 
-# удаление продукта
-DELETE {{baseUrl}}/products/1/
+# удаление продукта +
+DELETE http://127.0.0.1:8000/api/v1/products/4/
 Content-Type: application/json
 
 ###
 
-# поиск продуктов по названию и описанию
-GET {{baseUrl}}/products/?search=помидор
+# поиск продуктов по названию и описанию +
+GET http://127.0.0.1:8000/api/v1/products/?search=лук
 Content-Type: application/json
 
 ###
 
-# создание склада
-POST {{baseUrl}}/stocks/
+# создание склада +
+POST http://127.0.0.1:8000/api/v1/stocks/
 Content-Type: application/json
 
 {
-  "address": "мой адрес не дом и не улица, мой адрес сегодня такой: www.ленинград-спб.ru3",
+  "address": "Спб, Восстания 1",
   "positions": [
     {
-      "product": 2,
-      "quantity": 250,
-      "price": 120.50
+      "product": 6,
+      "quantity": 66,
+      "price": 666
     },
     {
-      "product": 3,
-      "quantity": 100,
-      "price": 180
+      "product": 7,
+      "quantity": 77,
+      "price": 777
+    },
+    {
+      "product": 8,
+      "quantity": 88,
+      "price": 888
     }
   ]
 }
 
 ###
 
-# обновляем записи на складе
-PATCH {{baseUrl}}/stocks/4/
+# обновляем записи на складе +
+PATCH http://127.0.0.1:8000/api/v1/stocks/18/
 Content-Type: application/json
 
 {
   "positions": [
     {
-      "product": 2,
-      "quantity": 100,
-      "price": 130.80
+      "product": 6,
+      "quantity": 400,
+      "price": 3
     },
     {
-      "product": 3,
-      "quantity": 243,
-      "price": 145
+      "product": 8,
+      "quantity": 300,
+      "price": 890
     }
   ]
 }
 
 ###
 
-# поиск складов, где есть определенный продукт
-GET {{baseUrl}}/stocks/?products=2
+# поиск складов, где есть определенный продукт+
+GET http://127.0.0.1:8000/api/v1/stocks/?products=6&ordering=positions__price
 Content-Type: application/json
