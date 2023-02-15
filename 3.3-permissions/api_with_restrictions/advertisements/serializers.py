@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
 
 from advertisements.models import Advertisement
 
@@ -25,6 +27,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'description', 'creator',
                   'status', 'created_at', )
 
+
     def create(self, validated_data):
         """Метод для создания"""
 
@@ -40,6 +43,10 @@ class AdvertisementSerializer(serializers.ModelSerializer):
     def validate(self, data):
         """Метод для валидации. Вызывается при создании и обновлении."""
 
-        # TODO: добавьте требуемую валидацию
+        creator_request = self.context["request"].user
+        print(creator_request)
+        status_adv_creator = Advertisement.objects.filter(creator=creator_request)
+        if len([i.status for i in status_adv_creator if i.status == 'OPEN']) >= 10:
+            raise ValidationError('Превышен лимит открытых объявлений (max=10)')
 
         return data

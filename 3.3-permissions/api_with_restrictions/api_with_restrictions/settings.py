@@ -77,6 +77,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ]
+
 }
 
 WSGI_APPLICATION = 'api_with_restrictions.wsgi.application'
@@ -91,6 +92,8 @@ DATABASES = {
         'NAME': 'netology_classified_ads',
         'HOST': '127.0.0.1',
         'PORT': '5432',
+        'USER': 'postgres',
+        'PASSWORD': ''
     }
 }
 
